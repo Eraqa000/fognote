@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fognote — облачные заметки</title>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1e293b;
+      --subtext: #64748b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --border: #e2e8f0;
+      --nav-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    body.dark-theme {
+      --bg: #020617;
+      --text: #e5e7eb;
+      --subtext: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --border: #1f2937;
+      --nav-bg: rgba(15, 23, 42, 0.9);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* Навбар */
+    nav {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      background: var(--nav-bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeSlide 0.8s ease forwards;
+    }
+
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--border);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Кнопка темы */
+    #theme-toggle {
+      border: 1px solid var(--border);
+      background: transparent;
+      border-radius: 999px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+    }
+
+    #theme-toggle:hover {
+      background: var(--border);
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 900px;
+      margin: 110px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeSlide 0.8s ease forwards 0.1s;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--subtext);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      opacity: 0;
+      animation: fadeSlide 0.8s ease forwards 0.2s;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+      opacity: 0;
+      animation: fadeSlide 0.8s ease forwards 0.3s;
+    }
+
+    .hero-buttons a {
+      text-decoration: none;
+      padding: 12px 22px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: 0.2s ease;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    /* Анимация */
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Навбар -->
+  <nav>
+    <div class="logo">
+      <div class="logo-icon">F</div>
+      Fognote
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="/profile/">Профиль</a>
+
+        <a href="/notes/">Заметки</a>
+        {% if user.is_authenticated %}
+          <a href="/logout/" class="btn-secondary">Выйти</a>
+        {% else %}
+          <a href="/login/" class="btn-secondary">Войти</a>
+          <a href="/register/" class="btn-primary">Регистрация</a>
+        {% endif %}
+      </div>
+
+      <button id="theme-toggle" type="button">
+        🌙 Тема
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Ваши мысли. Всегда с вами.<br>Храните заметки в облаке с Fognote.</h1>
+
+    <p>
+      Безопасное, быстрое и простое приложение для хранения и управления заметками.
+      Доступно с любого устройства, в любое время.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="/notes/" class="btn-primary">Перейти к заметкам</a>
+      <a href="#" class="btn-secondary">Узнать больше</a>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const toggleBtn = document.getElementById("theme-toggle");
+
+      function setTheme(theme) {
+        if (theme === "dark") {
+          body.classList.add("dark-theme");
+        } else {
+          body.classList.remove("dark-theme");
+        }
+        localStorage.setItem("theme", theme);
+        updateButton();
+      }
+
+      function updateButton() {
+        const isDark = body.classList.contains("dark-theme");
+        toggleBtn.textContent = isDark ? "☀️ Светлая" : "🌙 Тёмная";
+      }
+
+      const saved = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (saved) {
+        setTheme(saved);
+      } else if (prefersDark) {
+        setTheme("dark");
+      } else {
+        setTheme("light");
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        const isDark = body.classList.contains("dark-theme");
+        setTheme(isDark ? "light" : "dark");
+      });
+    })();
+  </script>
+</body>
+</html>

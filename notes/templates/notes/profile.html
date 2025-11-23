@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Профиль — Fognote</title>
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-soft: #475569;
+      --border: #e2e8f0;
+      --nav-bg: #ffffff;
+      --shadow-soft: rgba(15, 23, 42, 0.06);
+      --shadow-hover: rgba(15, 23, 42, 0.12);
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+
+      --sidebar-bg-light: #f1f5f9;
+      --sidebar-bg: var(--sidebar-bg-light);
+      --sidebar-text: #1f2933;
+
+      --sidebar-width-collapsed: 56px;
+      --sidebar-width-expanded: 210px;
+      --sidebar-width: 56px;
+    }
+
+    body.dark-theme {
+      --bg: #020617;
+      --card-bg: #020617;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border: #1f2937;
+      --nav-bg: #020617;
+      --shadow-soft: rgba(15, 23, 42, 0.7);
+      --shadow-hover: rgba(15, 23, 42, 0.9);
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --danger: #f97373;
+      --danger-hover: #fb4b4b;
+
+      --sidebar-bg: #111827;
+      --sidebar-text: #e5e7eb;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    body.sidebar-expanded {
+      --sidebar-width: var(--sidebar-width-expanded);
+    }
+
+    body:not(.sidebar-expanded) {
+      --sidebar-width: var(--sidebar-width-collapsed);
+    }
+
+    /* NAVBAR */
+
+    nav {
+      background: var(--nav-bg);
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 26px;
+      height: 26px;
+      background: var(--accent);
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 15px;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    .nav-links a:hover {
+      background: var(--border);
+    }
+
+    .avatar-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--border);
+      color: var(--text-soft);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .avatar-mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 58px;
+      bottom: 0;
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      padding: 8px 6px;
+      box-sizing: border-box;
+      z-index: 90;
+      transition: width 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 4px 6px;
+    }
+
+    .sidebar-title {
+      margin-left: 8px;
+      font-size: 14px;
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.15s ease;
+      color: var(--sidebar-text);
+    }
+
+    body.sidebar-expanded .sidebar-title {
+      opacity: 1;
+    }
+
+    .sidebar-toggle-btn {
+      border: none;
+      background: transparent;
+      color: var(--sidebar-text);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .sidebar-items {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--sidebar-text);
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(148, 163, 184, 0.25);
+    }
+
+    .sidebar-item .label {
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    body.sidebar-expanded .sidebar-item .label {
+      opacity: 1;
+    }
+
+    body:not(.sidebar-expanded) .sidebar-item .label {
+      display: none;
+    }
+    body:not(.sidebar-expanded) .sidebar-title {
+      display: none;
+    }
+
+    /* CONTENT */
+
+    .content-wrapper {
+      max-width: 900px;
+      margin: 32px auto 40px;
+      padding: 0 24px 40px;
+      box-sizing: border-box;
+      margin-left: calc(var(--sidebar-width) + 8px);
+      transition: margin-left 0.2s ease;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      margin-top: 0;
+      color: var(--text);
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px var(--shadow-soft);
+      border: 1px solid var(--border);
+    }
+
+    .top {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e5e7eb;
+      font-size: 32px;
+      color: #64748b;
+    }
+
+    body.dark-theme .avatar {
+      background: #111827;
+      color: #9ca3af;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .label {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .btn-edit {
+      display: inline-block;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-edit:hover {
+      background: var(--accent-hover);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 12px 12px;
+      }
+      .content-wrapper {
+        margin-left: calc(var(--sidebar-width) + 4px);
+        padding: 0 16px 32px;
+      }
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">
+      <div class="logo-icon">F</div>
+      Fognote
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="/">Главная</a>
+        <a href="/notes/">Заметки</a>
+      </div>
+
+      <a href="/profile/" class="avatar-mini" title="Профиль">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar }}" alt="avatar">
+        {% else %}
+          {{ user.username|first|upper }}
+        {% endif %}
+      </a>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <button class="sidebar-toggle-btn" id="sidebar-toggle" type="button">☰</button>
+      <span class="sidebar-title">Меню</span>
+    </div>
+
+    <div class="sidebar-items">
+      <a href="/" class="sidebar-item" title="Главная">
+        🏠 <span class="label">Главная</span>
+      </a>
+      <a href="/notes/" class="sidebar-item" title="Мои заметки">
+        📝 <span class="label">Заметки</span>
+      </a>
+      <a href="/profile/" class="sidebar-item" title="Профиль">
+        👤 <span class="label">Профиль</span>
+      </a>
+      <a href="/logout/" class="sidebar-item" title="Выйти">
+        🚪 <span class="label">Выйти</span>
+      </a>
+      <button class="sidebar-item" id="theme-toggle" type="button" title="Тема">
+        🌙 <span class="label">Тема</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content-wrapper">
+    <h1>Профиль пользователя</h1>
+
+    <div class="profile-card">
+      <div class="top">
+        <div class="avatar">
+          {% if profile.avatar %}
+            <img src="{{ profile.avatar }}" alt="avatar">
+          {% else %}
+            {{ request.user.username|first|upper }}
+          {% endif %}
+        </div>
+        <div>
+          <div class="label">Имя пользователя</div>
+          <div class="value">{{ request.user.username }}</div>
+
+          <div class="label" style="margin-top:8px;">E-mail</div>
+          <div class="value">{{ request.user.email|default:"(не указан)" }}</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">О себе</div>
+        <div class="value">
+          {{ profile.bio|default:"(не заполнено)" }}
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">Локация</div>
+        <div class="value">
+          {{ profile.location|default:"(не указано)" }}
+        </div>
+      </div>
+
+      <a href="/profile/edit/" class="btn-edit">Редактировать профиль</a>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const sidebarToggle = document.getElementById("sidebar-toggle");
+      const themeBtn = document.getElementById("theme-toggle");
+
+      function setSidebar(expanded) {
+        if (expanded) {
+          body.classList.add("sidebar-expanded");
+        } else {
+          body.classList.remove("sidebar-expanded");
+        }
+        localStorage.setItem("sidebarExpanded", expanded ? "1" : "0");
+      }
+
+      const savedSidebar = localStorage.getItem("sidebarExpanded");
+      setSidebar(savedSidebar === "1");
+
+      sidebarToggle.addEventListener("click", () => {
+        const nowExpanded = !body.classList.contains("sidebar-expanded");
+        setSidebar(nowExpanded);
+      });
+
+      function setTheme(theme) {
+        if (theme === "dark") {
+          body.classList.add("dark-theme");
+        } else {
+          body.classList.remove("dark-theme");
+        }
+        localStorage.setItem("theme", theme);
+      }
+
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else if (prefersDark) {
+        setTheme("dark");
+      } else {
+        setTheme("light");
+      }
+
+      themeBtn.addEventListener("click", () => {
+        const isDark = body.classList.contains("dark-theme");
+        setTheme(isDark ? "light" : "dark");
+      });
+    })();
+  </script>
+
+</body>
+</html>

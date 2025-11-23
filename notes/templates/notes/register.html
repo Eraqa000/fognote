@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация — Fognote</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #fff;
+      padding: 28px 24px;
+      border-radius: 14px;
+      box-shadow: 0 15px 30px rgba(15,23,42,0.12);
+      width: 100%;
+      max-width: 380px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 9px 10px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #22c55e;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover {
+      background: #16a34a;
+    }
+    .link {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .link a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    .errors {
+      color: #b91c1c;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Регистрация в Fognote</h1>
+
+    {% if form.errors %}
+      <div class="errors">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <div>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <label for="{{ form.username.id_for_label }}">Логин</label>
+      {{ form.username }}
+
+      <label for="{{ form.password1.id_for_label }}">Пароль</label>
+      {{ form.password1 }}
+
+      <label for="{{ form.password2.id_for_label }}">Повторите пароль</label>
+      {{ form.password2 }}
+
+      <button type="submit">Создать аккаунт</button>
+    </form>
+
+    <div class="link">
+      Уже есть аккаунт? <a href="/login/">Войти</a>
+    </div>
+    <div class="link">
+      ← <a href="/">На главную</a>
+    </div>
+  </div>
+</body>
+</html>
