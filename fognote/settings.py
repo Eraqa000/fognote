@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-w75z9!%d2dd#*i08$4oi0zg*5v0%h=k@)-2va8=^*&2(nnxses"
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
@@ -76,6 +76,10 @@ WSGI_APPLICATION = "fognote.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 DATABASES = {
     "default": {
