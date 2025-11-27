@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import NoteForm
+from .forms import NoteForm, RegisterForm
 from django.shortcuts import get_object_or_404
 from .models import Note, Profile
 from django.contrib.auth.decorators import login_required
@@ -125,17 +125,32 @@ def note_list(request):
 
 
 
+
 def register_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # сразу логиним после регистрации
-            return redirect("note_list")
+
+            # Создаем пользователя, но не сохраняем пароль как текст
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+
+            # Автосоздание профиля (сигнал post_save) → теперь просто обновляем
+            profile = Profile.objects.get(user=user)
+            profile.phone = form.cleaned_data["phone"]
+            profile.save()
+
+            return redirect("register_success")
+
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
 
     return render(request, "notes/register.html", {"form": form})
+
+def register_success_view(request):
+    return render(request, "notes/register_success.html")
+
 
 
 def login_view(request):

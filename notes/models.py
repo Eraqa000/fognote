@@ -25,6 +25,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField("О себе", blank=True, null=True)
     location = models.CharField("Локация", max_length=100, blank=True, null=True)
+    phone = models.CharField("Телефон", max_length=20, blank=True, null=True)
     theme = models.CharField("Тема", max_length=10, default="light")  # на будущее
     avatar = models.URLField("Аватар", blank=True, null=True)  # <— ДОБАВИЛИ
 

@@ -1,0 +1,83 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<div class="fg-admin-page">
+
+  <div class="fg-admin-page-header">
+    <h1 class="fg-admin-page-title">Все пользователи</h1>
+    <a href="{% url 'admin:auth_user_add' %}" class="fg-btn-primary">
+      + Создать пользователя
+    </a>
+  </div>
+
+  <form method="get" class="fg-search-form">
+    <input type="text"
+           name="q"
+           value="{{ search }}"
+           placeholder="Поиск по логину, email, имени..."
+           class="fg-search-input">
+    <button type="submit" class="fg-btn-secondary">Найти</button>
+  </form>
+
+  <div class="fg-list">
+    {% for user in page_obj %}
+      <div class="fg-list-item">
+        <div>
+          <div class="fg-list-title">
+            {{ user.username }}
+            {% if user.first_name or user.last_name %}
+              — {{ user.first_name }} {{ user.last_name }}
+            {% endif %}
+          </div>
+          <div class="fg-list-sub">
+            {{ user.email|default:"(email не указан)" }} •
+            Зарегистрирован: {{ user.date_joined }}
+          </div>
+          <div class="fg-badges">
+            <span class="fg-badge">Заметок: {{ user.notes_cnt }}</span>
+            {% if user.is_active %}
+              <span class="fg-badge fg-badge-green">Активен</span>
+            {% else %}
+              <span class="fg-badge fg-badge-red">Заблокирован</span>
+            {% endif %}
+            {% if user.is_staff %}
+              <span class="fg-badge fg-badge-blue">Staff</span>
+            {% endif %}
+            {% if user.is_superuser %}
+              <span class="fg-badge fg-badge-purple">Superuser</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <a href="{% url 'admin:auth_user_change' user.id %}" class="fg-list-link">
+          Открыть
+        </a>
+      </div>
+    {% empty %}
+      <div class="fg-list-empty">Пользователей пока нет</div>
+    {% endfor %}
+  </div>
+
+  <!-- Пагинация -->
+  {% if page_obj.paginator.num_pages > 1 %}
+    <div class="fg-pagination">
+      {% if page_obj.has_previous %}
+        <a class="fg-page-link"
+           href="?q={{ search }}&page={{ page_obj.previous_page_number }}">← Назад</a>
+      {% endif %}
+
+      <span class="fg-page-current">
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a class="fg-page-link"
+           href="?q={{ search }}&page={{ page_obj.next_page_number }}">Вперёд →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

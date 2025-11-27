@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/admin_custom.css' %}">
+{% endblock %}
+
+{% block title %}Fognote Admin{% endblock %}
+
+{% block branding %}
+  <div class="fg-admin-brand">
+    <span class="fg-admin-logo">F</span>
+    <div class="fg-admin-brand-text">
+      <div class="fg-admin-brand-title">Fognote Admin</div>
+      <div class="fg-admin-brand-sub">панель управления</div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block nav-global %}
+  <div class="fg-admin-top-links">
+    <a href="/" target="_blank">На сайт</a>
+    <a href="{% url 'admin:dashboard' %}">Dashboard</a>
+    <button type="button" id="fg-theme-toggle" class="fg-theme-btn">🌙</button>
+  </div>
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const body = document.body;
+      const btn = document.getElementById('fg-theme-toggle');
+      if (!btn) return;
+
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          body.classList.add('fg-theme-dark');
+          btn.textContent = '☀';
+        } else {
+          body.classList.remove('fg-theme-dark');
+          btn.textContent = '🌙';
+        }
+      }
+
+      const saved = localStorage.getItem('fg-theme') || 'light';
+      applyTheme(saved);
+
+      btn.addEventListener('click', function() {
+        const newTheme = body.classList.contains('fg-theme-dark') ? 'light' : 'dark';
+        localStorage.setItem('fg-theme', newTheme);
+        applyTheme(newTheme);
+      });
+    });
+  </script>
+{% endblock %}

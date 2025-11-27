@@ -1,0 +1,88 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{# Убираем стандартный заголовок "Change user / <username>" #}
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<div class="fg-admin-page">
+
+  <!-- Верхняя панель с кнопками -->
+  <div class="fg-admin-page-header">
+    <h1 class="fg-admin-page-title">
+      Пользователь: {{ original.username }}
+    </h1>
+    <div class="fg-admin-page-actions">
+      <a href="{% url 'admin:users_list' %}" class="fg-btn-secondary">
+        Все пользователи
+      </a>
+      <a href="{% url 'admin:auth_user_password_change' original.pk %}"
+         class="fg-btn-secondary">
+        Сменить пароль
+      </a>
+    </div>
+  </div>
+
+  <!-- Резюме по пользователю -->
+  <div class="fg-user-summary">
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Email</div>
+      <div class="fg-admin-card-value">
+        {{ original.email|default:"(не указан)" }}
+      </div>
+      <div class="fg-admin-card-sub">
+        Имя: {{ original.first_name|default:"—" }},
+        Фамилия: {{ original.last_name|default:"—" }}
+      </div>
+    </div>
+
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Статус</div>
+      <div class="fg-badges">
+        {% if original.is_active %}
+          <span class="fg-badge fg-badge-green">Активен</span>
+        {% else %}
+          <span class="fg-badge fg-badge-red">Заблокирован</span>
+        {% endif %}
+        {% if original.is_staff %}
+          <span class="fg-badge fg-badge-blue">Staff</span>
+        {% endif %}
+        {% if original.is_superuser %}
+          <span class="fg-badge fg-badge-purple">Superuser</span>
+        {% endif %}
+      </div>
+      <div class="fg-admin-card-sub">
+        Группы:
+        {% if original.groups.all %}
+          {% for g in original.groups.all %}
+            {{ g.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            нет
+          {% endfor %}
+        {% else %}
+          нет
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Активность</div>
+      <div class="fg-admin-card-sub">
+        Зарегистрирован: {{ original.date_joined }}
+      </div>
+      <div class="fg-admin-card-sub">
+        Последний вход: {{ original.last_login|default:"(ещё не заходил)" }}
+      </div>
+      <div class="fg-admin-card-sub" style="margin-top:6px;">
+        Заметок: {{ original.notes.count }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Стандартная форма Django admin (все поля + инлайны) -->
+  <div class="fg-user-form-wrapper">
+    {{ block.super }}
+  </div>
+
+</div>
+{% endblock %}

@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Регистрация — Fognote</title>
+
   <style>
     body {
-      font-family: system-ui, sans-serif;
+      font-family: "Inter", system-ui, sans-serif;
       background: #f1f5f9;
       margin: 0;
       display: flex;
@@ -13,100 +14,149 @@
       align-items: center;
       min-height: 100vh;
     }
+
     .card {
-      background: #fff;
+      background: white;
       padding: 28px 24px;
       border-radius: 14px;
-      box-shadow: 0 15px 30px rgba(15,23,42,0.12);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.13);
       width: 100%;
-      max-width: 380px;
+      max-width: 420px;
+      border: 1px solid #e2e8f0;
     }
+
     h1 {
       margin-top: 0;
       margin-bottom: 20px;
-      font-size: 24px;
+      font-size: 26px;
+      font-weight: 600;
+      text-align: center;
+      color: #0f172a;
     }
+
     label {
       display: block;
       margin-bottom: 6px;
       font-size: 14px;
+      color: #475569;
+      font-weight: 500;
     }
+
     input {
       width: 100%;
-      padding: 9px 10px;
-      margin-bottom: 14px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
-      font-size: 14px;
+      background: #fff;
+      font-size: 15px;
+      box-sizing: border-box;
     }
+
+    input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
+    }
+
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border-radius: 10px;
       border: none;
-      background: #22c55e;
-      color: #fff;
+      background: #3b82f6;
+      color: white;
       font-weight: 600;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 16px;
+      margin-top: 10px;
     }
+
     button:hover {
-      background: #16a34a;
+      background: #2563eb;
     }
+
     .link {
       text-align: center;
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 14px;
     }
+
     .link a {
       color: #3b82f6;
       text-decoration: none;
     }
+
     .errors {
       color: #b91c1c;
-      font-size: 13px;
-      margin-bottom: 8px;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .errors div {
+      margin-bottom: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Регистрация в Fognote</h1>
 
-    {% if form.errors %}
-      <div class="errors">
-        {% for field in form %}
-          {% for error in field.errors %}
-            <div>{{ error }}</div>
-          {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
+<div class="card">
+
+  <h1>Регистрация Fognote</h1>
+
+  {% if form.errors %}
+    <div class="errors">
+      {% for field in form %}
+        {% for error in field.errors %}
           <div>{{ error }}</div>
         {% endfor %}
-      </div>
-    {% endif %}
-
-    <form method="post">
-      {% csrf_token %}
-
-      <label for="{{ form.username.id_for_label }}">Логин</label>
-      {{ form.username }}
-
-      <label for="{{ form.password1.id_for_label }}">Пароль</label>
-      {{ form.password1 }}
-
-      <label for="{{ form.password2.id_for_label }}">Повторите пароль</label>
-      {{ form.password2 }}
-
-      <button type="submit">Создать аккаунт</button>
-    </form>
-
-    <div class="link">
-      Уже есть аккаунт? <a href="/login/">Войти</a>
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div>{{ error }}</div>
+      {% endfor %}
     </div>
-    <div class="link">
-      ← <a href="/">На главную</a>
-    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <label>Логин</label>
+    {{ form.username }}
+
+    <label>Имя</label>
+    {{ form.first_name }}
+
+    <label>Фамилия</label>
+    {{ form.last_name }}
+
+    <label>Email</label>
+    {{ form.email }}
+
+    <label>Телефон</label>
+    {{ form.phone }}
+
+    <label>Пароль</label>
+    {{ form.password }}
+
+    <label>Повторите пароль</label>
+    {{ form.password2 }}
+
+    <button type="submit">Создать аккаунт</button>
+  </form>
+
+  <div class="link">
+    Уже есть аккаунт? <a href="/login/">Войти</a>
   </div>
+
+  <div class="link">
+    <a href="/">← На главную</a>
+  </div>
+
+</div>
+
 </body>
 </html>

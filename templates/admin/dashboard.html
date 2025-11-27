@@ -1,0 +1,142 @@
+
+
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<div class="fg-admin-page">
+
+  <div class="fg-admin-page-header">
+    <h1 class="fg-admin-page-title">Dashboard</h1>
+    <div class="fg-admin-page-actions">
+      <a href="{% url 'admin:users_list' %}" class="fg-btn-secondary">
+        Все пользователи
+      </a>
+      <a href="{% url 'admin:auth_user_add' %}" class="fg-btn-primary">
+        + Новый пользователь
+      </a>
+    </div>
+  </div>
+
+
+  <!-- Основные метрики -->
+  <div class="fg-admin-cards">
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Всего пользователей</div>
+      <div class="fg-admin-card-value">{{ total_users }}</div>
+      <div class="fg-admin-card-sub">
+        Сегодня: {{ users_today }}, за 7 дней: {{ users_last_7 }}
+      </div>
+    </div>
+
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Всего заметок</div>
+      <div class="fg-admin-card-value">{{ total_notes }}</div>
+      <div class="fg-admin-card-sub">
+        Сегодня: {{ notes_today }}, за 7 дней: {{ notes_last_7 }}
+      </div>
+    </div>
+
+    <div class="fg-admin-card">
+      <div class="fg-admin-card-label">Профили</div>
+      <div class="fg-admin-card-value">{{ total_profiles }}</div>
+      <div class="fg-admin-card-sub">
+        (создаются автоматически)
+      </div>
+    </div>
+  </div>
+
+  <!-- Самые активные пользователи -->
+  <div class="fg-admin-block">
+    <h2 class="fg-admin-block-title">
+      Самые активные пользователи (по количеству заметок)
+    </h2>
+    <div class="fg-list">
+      {% for row in top_authors %}
+        <div class="fg-list-item">
+          <div>
+            <div class="fg-list-title">{{ row.user__username }}</div>
+            <div class="fg-list-sub">Заметок: {{ row.cnt }}</div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="fg-list-empty">Нет данных</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Две колонки: регистрации и заметки -->
+  <div class="fg-admin-columns">
+
+    <!-- Последние регистрации -->
+    <div class="fg-admin-block">
+      <h2 class="fg-admin-block-title">Последние регистрации</h2>
+      <div class="fg-list">
+        {% for user in recent_users %}
+          <div class="fg-list-item">
+            <div>
+              <div class="fg-list-title">{{ user.username }}</div>
+              <div class="fg-list-sub">
+                {{ user.email }} • {{ user.date_joined }}
+              </div>
+            </div>
+            <a class="fg-list-link"
+               href="{% url 'admin:auth_user_change' user.id %}">
+              Открыть
+            </a>
+          </div>
+        {% empty %}
+          <div class="fg-list-empty">Нет данных</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Последние заметки -->
+    <div class="fg-admin-block">
+      <h2 class="fg-admin-block-title">Последние заметки</h2>
+      <div class="fg-list">
+        {% for note in recent_notes %}
+          <div class="fg-list-item">
+            <div>
+              <div class="fg-list-title">{{ note.title }}</div>
+              <div class="fg-list-sub">
+                Автор: {{ note.user.username }} • {{ note.created_at }}
+              </div>
+            </div>
+            <a class="fg-list-link"
+               href="{% url 'admin:notes_note_change' note.id %}">
+              Открыть
+            </a>
+          </div>
+        {% empty %}
+          <div class="fg-list-empty">Нет данных</div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Логи действий -->
+  <div class="fg-admin-block" style="margin-top: 30px;">
+    <h2 class="fg-admin-block-title">Последние действия админки</h2>
+    <div class="fg-list">
+      {% for log in recent_logs %}
+        <div class="fg-list-item">
+          <div>
+            <div class="fg-list-title">
+              {{ log.user }} — {{ log.object_repr }}
+            </div>
+            <div class="fg-list-sub">
+              {{ log.action_time }} • {{ log.get_action_flag_display }}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="fg-list-empty">Логов пока нет</div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

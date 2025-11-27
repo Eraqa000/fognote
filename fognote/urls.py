@@ -1,13 +1,16 @@
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path
+from notes.admin_dashboard import fognote_admin
 from notes.views import (
     home, note_list,
     register_view, login_view, logout_view,
-    create_note, edit_note, delete_note, profile_view, edit_profile,
+    create_note, edit_note, delete_note, profile_view, edit_profile, register_success_view
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", fognote_admin.urls),
+    #path("admin/", admin.site.urls),
     path("", home, name="home"),
     path("notes/", note_list, name="note_list"),
 
@@ -16,6 +19,7 @@ urlpatterns = [
     path("notes/<int:note_id>/delete/", delete_note, name="delete_note"),
 
     path("register/", register_view, name="register"),
+    path("register/success/", register_success_view, name="register_success"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
 

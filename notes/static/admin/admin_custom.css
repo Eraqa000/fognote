@@ -1,0 +1,469 @@
+/* ========= ТЕМЫ ========= */
+
+:root {
+  --fg-bg: #f1f5f9;
+  --fg-card-bg: #ffffff;
+  --fg-text-main: #0f172a;
+  --fg-text-muted: #64748b;
+  --fg-border: #e2e8f0;
+  --fg-shadow: 0 10px 25px rgba(15,23,42,0.10);
+
+  --fg-table-header-bg: #f8fafc;
+  --fg-table-row-alt: #f9fafb;
+  --fg-table-row-hover: #eff6ff;
+}
+
+body.fg-theme-dark {
+  --fg-bg: #020617;
+  --fg-card-bg: #020617;
+  --fg-text-main: #e5e7eb;
+  --fg-text-muted: #94a3b8;
+  --fg-border: #1f2937;
+  --fg-shadow: 0 10px 25px rgba(0,0,0,0.6);
+
+  --fg-table-header-bg: #020617;
+  --fg-table-row-alt: #020617;
+  --fg-table-row-hover: #111827;
+}
+
+/* фон всего админа */
+body {
+  background: var(--fg-bg) !important;
+  color: var(--fg-text-main);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* контейнеры Django */
+#container {
+  background: transparent;
+}
+
+#content {
+  background: transparent;
+}
+
+/* ========= БРЕНДИНГ ========= */
+
+.fg-admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fg-admin-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3b82f6, #22c55e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.fg-admin-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.fg-admin-brand-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.fg-admin-brand-sub {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+/* верхнее меню справа */
+.fg-admin-top-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fg-admin-top-links a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.fg-admin-top-links a:hover {
+  text-decoration: underline;
+}
+
+.fg-theme-btn {
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ========= DASHBOARD ========= */
+
+.fg-admin-page {
+  padding: 20px 10px 40px 10px;
+}
+
+.fg-admin-page-title {
+  margin: 0 0 20px 0;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--fg-text-main);
+}
+
+/* карточки */
+.fg-admin-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.fg-admin-card {
+  flex: 1;
+  min-width: 220px;
+  background: var(--fg-card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--fg-border);
+  box-shadow: var(--fg-shadow);
+  padding: 16px 18px;
+}
+
+.fg-admin-card-label {
+  font-size: 14px;
+  color: var(--fg-text-muted);
+  margin-bottom: 6px;
+}
+
+.fg-admin-card-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--fg-text-main);
+}
+
+.fg-admin-card-sub {
+  font-size: 13px;
+  color: var(--fg-text-muted);
+  margin-top: 4px;
+}
+
+/* таблицы */
+.fg-admin-tables {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .fg-admin-tables {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fg-admin-table-block h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: var(--fg-text-main);
+}
+
+.fg-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--fg-card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--fg-border);
+}
+
+.fg-admin-table thead {
+  background: var(--fg-table-header-bg);
+}
+
+.fg-admin-table th,
+.fg-admin-table td {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.fg-admin-table th {
+  text-align: left;
+  color: var(--fg-text-muted);
+  border-bottom: 1px solid var(--fg-border);
+}
+/*
+.fg-admin-table tbody tr:nth-child(even) {
+  background: var(--fg-table-row-alt);
+}
+
+.fg-admin-table tbody tr:hover {
+  background: var(--fg-table-row-hover);
+}*/
+
+/* стандартные блоки Django делаем аккуратнее */
+.module {
+  background: var(--fg-card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--fg-border);
+}
+
+/* ====== Блоки на дашборде ====== */
+
+.fg-admin-block {
+  margin-top: 24px;
+}
+
+.fg-admin-block-title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: var(--fg-text-main);
+}
+
+/* Списки-карточки */
+
+.fg-admin-columns {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .fg-admin-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fg-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--fg-card-bg);
+  border: 1px solid var(--fg-border);
+  box-shadow: var(--fg-shadow);
+}
+
+.fg-list-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg-text-main);
+}
+
+.fg-list-sub {
+  font-size: 13px;
+  color: var(--fg-text-muted);
+}
+
+.fg-list-link {
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.fg-list-link:hover {
+  background: #eff6ff;
+}
+
+body.fg-theme-dark .fg-list-link {
+  border-color: #60a5fa;
+  color: #bfdbfe;
+}
+
+body.fg-theme-dark .fg-list-link:hover {
+  background: #0b1120;
+}
+
+.fg-list-empty {
+  font-size: 14px;
+  color: var(--fg-text-muted);
+}
+
+/* header страницы с кнопками */
+.fg-admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.fg-admin-page-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* кнопки */
+
+.fg-btn-primary,
+.fg-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.fg-btn-primary {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.fg-btn-primary:hover {
+  background: #2563eb;
+}
+
+.fg-btn-secondary {
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+.fg-btn-secondary:hover {
+  background: #eff6ff;
+}
+
+body.fg-theme-dark .fg-btn-secondary {
+  border-color: #60a5fa;
+  color: #bfdbfe;
+}
+
+body.fg-theme-dark .fg-btn-secondary:hover {
+  background: #020617;
+}
+
+/* поиск */
+
+.fg-search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fg-search-input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--fg-border);
+  font-size: 14px;
+  background: var(--fg-card-bg);
+  color: var(--fg-text-main);
+}
+
+/* бейджи */
+
+
+.fg-badge-green { background: #bbf7d0; color: #166534; }
+.fg-badge-red   { background: #fecaca; color: #991b1b; }
+.fg-badge-blue  { background: #bfdbfe; color: #1d4ed8; }
+.fg-badge-purple{ background: #e9d5ff; color: #6b21a8; }
+
+body.fg-theme-dark .fg-badge {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+/* пагинация */
+
+.fg-pagination {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.fg-page-link {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.fg-page-link:hover {
+  text-decoration: underline;
+}
+
+.fg-page-current {
+  color: var(--fg-text-muted);
+}
+
+/* Общий контейнер страницы admin уже есть: .fg-admin-page */
+
+/* layout заголовка уже есть:
+   .fg-admin-page-header, .fg-admin-page-actions, .fg-btn-primary, .fg-btn-secondary */
+
+/* ====== Блок резюме пользователя ====== */
+
+.fg-user-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1100px) {
+  .fg-user-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .fg-user-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fg-user-form-wrapper {
+  margin-top: 10px;
+}
+
+/* карточки уже определены как .fg-admin-card / .fg-admin-card-label / .fg-admin-card-value / .fg-admin-card-sub */
+/* если вдруг их нет, можно скопировать из стилей дашборда */
+
+/* ====== Бейджи статусов (если ещё не добавлял) ====== */
+
+.fg-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 4px 0;
+}
+
+.fg-badge {
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.fg-badge-green { background: #bbf7d0; color: #166534; }
+.fg-badge-red   { background: #fecaca; color: #991b1b; }
+.fg-badge-blue  { background: #bfdbfe; color: #1d4ed8; }
+.fg-badge-purple{ background: #e9d5ff; color: #6b21a8; }
+
+body.fg-theme-dark .fg-badge {
+  background: #111827;
+  color: #e5e7eb;
+}
+
